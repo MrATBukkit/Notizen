@@ -6,23 +6,43 @@ class DBInit {
     createNotizenTable() {
         this.db.serialize(() => {
             this.db.run(`CREATE TABLE IF NOT EXISTS notizen (
-            'PK' integer Primary Key AUTOINCREMENT,
-            'text' varchar(200) NOT NULL,
-            'tagFK' integer,
-            foreign KEY(tagFK) references tags(PK));`);
+                'PK' integer Primary Key AUTOINCREMENT,
+                'text' varchar(200) NOT NULL);`);
         });
     }
     createTagsTable() {
         this.db.serialize(() => {
             this.db.run(`CREATE TABLE IF NOT EXISTS tags (
-            'PK' integer Primary Key AUTOINCREMENT,
-            'tag' varchar(200) NOT NULL);`)
+                'PK' integer Primary Key AUTOINCREMENT,
+                'tag' varchar(200) NOT NULL);`);
+        })
+    }
+    createPivotTable() {
+        this.db.serialize(() => {
+            this.db.run(`CREATE TABLE IF NOT EXISTS notizen_tags (
+                'tag_FK' integer NOT NULL,
+                'notizen_FK' integer NOT NULL,
+                foreign key(tag_FK) references tags(PK),
+                foreign key(notizen_FK) references notizen(PK),
+                PRIMARY KEY('tag_FK', 'notizen_FK'));`);
         });
     }
-    createDatabase() {
-        this.createTagsTable();
-        this.createNotizenTable();
+
+    fillDatabase() {
+        this.db.serialize(() => {
+            this.db.run(`INSERT OR REPLACE INTO notizen ('text') VALUES ('testen'), ('lernen');`);
+            this.db.run(`INSERT OR REPLACE INTO tags ('tag') VALUES ('Schule'), ('Privat'), ('Firma');`);
+            this.db.run(`INSERT or REPLACE INTO notizen_tags ('tag_FK', 'notizen_FK') VALUES (1,1), (2, 1), (2, 2);`)
+        });
     }
 
-
+    createDatabase() {
+        this.db.serialize(() => {
+            this.createTagsTable();
+            this.createNotizenTable();
+            this.createPivotTable();
+            this.fillDatabase();
+        });
+    }
 }
+module.exports = DBInit;

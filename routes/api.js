@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-
+let dataBase
 router.route("/notes")
     .get(notizenGET);
 
 function notizenGET(req, res) {
-    db.all('SELECT * FROM notizen', [], (err, rows) => {
+    dataBase.all('SELECT * FROM notizen', [], (err, rows) => {
         if (err) {
           throw err;
         }
@@ -13,6 +13,10 @@ function notizenGET(req, res) {
         /*rows.forEach((row) => {
           console.log(row.name);
         });*/
-
     });
 }
+
+module.exports = function (db) {
+    dataBase = db;
+    return router;
+};
