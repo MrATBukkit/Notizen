@@ -10,8 +10,14 @@ router.route("/notes/:id")
     .delete(NotizDELETE)
     .post(oneNotizPOST);
 
-function oneNotizPOST() {
-
+function oneNotizPOST(req, res) {
+    db.run(`UPDATE notizen SET text=? WHERE PK=?`, [req.body.text, req.params.id], (err) => {
+       if (err) {
+           res.sendStatus(500);
+           return;
+       }
+       res.sendStatus(200);
+    });
 }
 
 function NotizDELETE(req, res) {
