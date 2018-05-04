@@ -1,6 +1,9 @@
 
 # Created by https://www.gitignore.io/api/node,angular,phpstorm
 
+### SQLite3 ###
+/*.sqlite3
+
 ### Angular ###
 ## Angular ##
 # compiled output

@@ -30,8 +30,8 @@ class DBInit {
 
     fillDatabase() {
         this.db.serialize(() => {
-            this.db.run(`INSERT OR REPLACE INTO notizen ('text') VALUES ('testen'), ('lernen');`);
-            this.db.run(`INSERT OR REPLACE INTO tags ('tag') VALUES ('Schule'), ('Privat'), ('Firma');`);
+            this.db.run(`INSERT OR REPLACE INTO notizen ('PK', 'text') VALUES (1, 'testen'), (2, 'lernen');`);
+            this.db.run(`INSERT OR REPLACE INTO tags ('PK', 'tag') VALUES (1, 'Schule'), (2, 'Privat'), (3, 'Firma');`);
             this.db.run(`INSERT or REPLACE INTO notizen_tags ('tag_FK', 'notizen_FK') VALUES (1,1), (2, 1), (2, 2);`)
         });
     }
