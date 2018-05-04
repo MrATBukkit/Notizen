@@ -10,10 +10,11 @@ const bodyParser = require('body-parser');
 const apiRouts = require('./routes/api')(db);
 
 DBIntigration = new dbInit(db);
-DBIntigration.createDatabase();
+//DBIntigration.createDatabase();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(__dirname+"/app/dist"));
 
 app.listen(3000);
 app.use("/api", apiRouts);
