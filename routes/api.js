@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-let db
+let db;
 router.route("/notes")
     .get(notizenGET)
     .post(postMessage);
@@ -9,6 +9,70 @@ router.route("/notes/:id")
     .get(oneNotizGET)
     .delete(NotizDELETE)
     .post(oneNotizPOST);
+
+router.route("/tags")
+    .get(tagsGET)
+    .post(tagPOST);
+
+router.route("/tags/:id")
+    .get(oneTagGET)
+    .delete(TagDELETE)
+    .post(oneTagPOST);
+
+function oneTagPOST(req, res) {
+    db.run(`UPDATE tags SET tag=? WHERE PK=?`, [req.body.tagname ,req.params.id], (err) => {
+        if (err) {
+            res.sendStatus(500);
+            return
+        }
+        res.sendStatus(200);
+    });
+}
+
+function TagDELETE(req, res) {
+    db.run(`DELETE FROM tags WHERE PK=?`, [req.params.id], (err)  => {
+        if (err) {
+            res.sendStatus(500);
+            return;
+        }
+        res.sendStatus(200);
+    })
+}
+
+function oneTagGET(req, res) {
+    db.get(`SELECT tag FROM tags WHERE PK=?`, [req.params.id], (err, row) => {
+       if (err) {
+           res.sendStatus(500);
+           return;
+       }
+       if (row) {
+           res.json(row);
+       } else {
+           res.sendStatus(400)
+       }
+    });
+}
+
+function tagPOST(req, res) {
+    db.run(`INSERT INTO tags ('tag') VALUES (?);`,
+        [req.body.tag], (err) => {
+            if (err) {
+                res.sendStatus(500);
+                return;
+            }
+            res.sendStatus(200);
+        });
+}
+
+function tagsGET(req, res) {
+    db.all(`SELECT PK as id, tag FROM tags;`, [], (err, rows)=>{
+        if (err) {
+            res.sendStatus(500);
+            return;
+        }
+        res.json(rows);
+    });
+}
 
 function oneNotizPOST(req, res) {
     db.run(`UPDATE notizen SET text=? WHERE PK=?`, [req.body.text, req.params.id], (err) => {
