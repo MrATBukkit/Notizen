@@ -1,3 +1,15 @@
-<div *ngFor="let note of notes">
-    {{note.text}}
+<div class="row">
+    <div class="col">
+        <div *ngFor="let note of notes">
+            <app-notiz [noteInput]="note"></app-notiz>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <div class="btn btn-success">
+            <span>Add</span>
+        </div>
+    </div>
 </div>

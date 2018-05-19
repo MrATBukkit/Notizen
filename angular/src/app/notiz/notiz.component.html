@@ -1,3 +1,12 @@
-<p>
-  notiz works!
-</p>
+<div class="card">
+    <div class="card-header">
+        <a class="collapsed card-link" data-toggle="collapse" href="#collapse{{note.PK}}">
+            {{note.text}}
+        </a>
+    </div>
+    <div id="collapse{{note.PK}}" class="collapse" data-parent="#accordion">
+        <div class="card-body">
+            Tags: <span *ngFor="let tag of note.tags">{{tag.tag}}, </span>
+        </div>
+    </div>
+</div>

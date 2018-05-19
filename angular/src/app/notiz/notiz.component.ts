@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-notiz',
@@ -6,10 +6,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./notiz.component.css']
 })
 export class NotizComponent implements OnInit {
+  @Input() noteInput: JSON;
+  note: JSON;
+  constructor() {
 
-  constructor() { }
+  }
 
   ngOnInit() {
+      this.note = this.noteInput;
   }
 
 }

@@ -4,13 +4,15 @@
   "description": "Notizen verwaltung",
   "main": "index.js",
   "scripts": {
-    "test": "mocka"
+    "test": "mocka",
+    "serve": "nodemon index.js"
   },
   "author": "Walzl Hermann",
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.3",
     "mocka": "0.0.1",
+    "nodemon": "^1.17.4",
     "sqlite3": "^4.0.0"
   },
   "devDependencies": {
