@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {NotizenService} from "../services/notizen.service";
+import {Note} from "../../models/interfaces/Notes";
 
 @Component({
   selector: 'app-notizen-list',
@@ -8,7 +9,7 @@ import {NotizenService} from "../services/notizen.service";
 })
 export class NotizenListComponent implements OnInit {
 
-  notes: JSON;
+  notes: Note[];
   showAddFormular: boolean
 
   constructor(private notizenService: NotizenService) {

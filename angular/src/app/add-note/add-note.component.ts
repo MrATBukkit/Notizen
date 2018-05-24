@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {addNote, createInitilaAddNote} from "../../models/interfaces/addNotes";
+import {Note, createInitilaNote} from "../../models/interfaces/Notes";
 
 @Component({
   selector: 'app-add-note',
@@ -7,9 +7,9 @@ import {addNote, createInitilaAddNote} from "../../models/interfaces/addNotes";
   styleUrls: ['./add-note.component.css']
 })
 export class AddNoteComponent implements OnInit {
-  addNoteModel: addNote;
+  addNoteModel: Note;
   constructor() {
-    this.addNoteModel = createInitilaAddNote();
+    this.addNoteModel = createInitilaNote();
   }
 
   ngOnInit() {
