@@ -48,6 +48,8 @@ export class NotizenService {
       return subject;
   }
 
+
+
   private removeElement(id: number, inputJSON: JSON): JSON {
     for (let i in this.JSONnote) {
         if (this.JSONnote[i].PK == id) {

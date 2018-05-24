@@ -9,8 +9,11 @@ import {NotizenService} from "../services/notizen.service";
 export class NotizenListComponent implements OnInit {
 
   notes: JSON;
+  showAddFormular: boolean
 
-  constructor(private notizenService: NotizenService) { }
+  constructor(private notizenService: NotizenService) {
+    this.showAddFormular = false;
+  }
 
   ngOnInit() {
     this.notizenService.getNotes().subscribe(data => {

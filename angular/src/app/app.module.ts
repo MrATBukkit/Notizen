@@ -7,17 +7,23 @@ import { NotizenListComponent } from './notizen-list/notizen-list.component';
 import { NotizComponent } from './notiz/notiz.component';
 import {NotizenService} from "./services/notizen.service";
 import {HttpModule} from "@angular/http";
+import { AddNoteComponent } from './add-note/add-note.component';
+import {FormsModule} from "@angular/forms";
+import {ShowErrorComponent} from "../show-error/show-error.component";
 
 
 @NgModule({
   declarations: [
     AppComponent,
     NotizenListComponent,
-    NotizComponent
+    NotizComponent,
+    AddNoteComponent,
+      ShowErrorComponent
   ],
   imports: [
     BrowserModule,
-      HttpModule
+      HttpModule,
+      FormsModule
   ],
   providers: [NotizenService],
   bootstrap: [AppComponent]
