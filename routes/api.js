@@ -69,7 +69,6 @@ function tagPOST(req, res) {
                     res.sendStatus(500);
                     return;
                 }
-                res.sendStatus(200);
             });
         connectTagsNotes(req.body, (err) => {
            if (err) {
@@ -80,8 +79,6 @@ function tagPOST(req, res) {
         });
     }
     // curl -X POST -H "Content-Type: application/json" localhost:3000/api/tags -d '{"abc": "hallo"}
-    //console.log(JSON.stringify(req.body));
-    //res.sendStatus(200);
 
 }
 
@@ -133,8 +130,10 @@ function postMessage(req, res) {
         connectTagsNotes(req.body, (err) => {
             if (err) {
                 res.sendStatus(500);
+                return;
+            } else {
+                res.sendStatus(200);
             }
-            res.sendStatus(200);
         });
     });
 }
@@ -204,7 +203,6 @@ function getTagsForNotiz(notizId) {
                             rows.forEach((row) => {
                                 arr.push(row.PK);
                             });
-                            console.log("resolver");
                             resolve(rows);
                         }
                     );
