@@ -9,23 +9,51 @@ const BASE_URL = "/api/";
 @Injectable()
 export class NotizenService {
 
-  constructor(private http: Http) { }
+  notes: Subject<JSON> = new Subject<JSON>();
+  JSONnote: JSON;
+  constructor(private http: Http) {
+      this.notes.subscribe((data) => {
+         this.JSONnote = data;
+      });
+  }
 
   getNotes() : Observable<JSON> {
-    let subject = new Subject<JSON>();
     let header = new Headers();
     header.append('Content-Type', 'application/json');
     this.http.get(BASE_URL+"notes").subscribe(
         data => {
-            console.log(JSON.parse(data.text()));
-          subject.next(JSON.parse(data.text()))
+          let jsonNote = JSON.parse(data.text());
+          this.notes.next(jsonNote);
+          console.log(jsonNote);
         },
         err => {
           console.log(err);
         }
     );
-    return subject;
+    return this.notes;
+  }
+  removeNote(id:number): Observable<Boolean> {
+      let subject = new Subject<Boolean>();
+      let header = new Headers();
+      header.append('Content-Type', 'application/json');
+      this.http.delete(BASE_URL+"notes/"+id).subscribe(
+          data => {
+              subject.next(true);
+              this.notes.next(this.removeElement(id, this.JSONnote));
+          },
+          err => {
+              throw err;
+          }
+      );
+      return subject;
   }
 
-
+  private removeElement(id: number, inputJSON: JSON): JSON {
+    for (let i in this.JSONnote) {
+        if (this.JSONnote[i].PK == id) {
+            delete inputJSON[i];
+        }
+    }
+    return inputJSON;
+  }
 }

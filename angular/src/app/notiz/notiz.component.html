@@ -1,7 +1,8 @@
-<div class="card">
+<div *ngIf="note != empty" class="card">
     <div class="card-header">
         <a class="collapsed card-link" data-toggle="collapse" href="#collapse{{note.PK}}">
             {{note.text}}
+            <i id="delete" (click)="delite(note.PK, $event)" class="fas fa-trash"></i>
         </a>
     </div>
     <div id="collapse{{note.PK}}" class="collapse" data-parent="#accordion">
