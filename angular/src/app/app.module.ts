@@ -8,6 +8,7 @@ import { AddNoteComponent } from './add-note/add-note.component';
 import {FormsModule} from "@angular/forms";
 import {ShowErrorComponent} from "./show-error/show-error.component";
 import {HttpClientModule} from "@angular/common/http";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import {HttpClientModule} from "@angular/common/http";
   imports: [
     BrowserModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule
   ],
   providers: [NotizenService],
   bootstrap: [AppComponent]

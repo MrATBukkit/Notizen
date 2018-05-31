@@ -1,17 +1,16 @@
 <div class="row">
-    <div class="col">
-        <div *ngFor="let note of notes">
-            <app-notiz [noteInput]="note"></app-notiz>
-        </div>
+    <div class="col addNote">
+        <!--<div class="btn btn-success" (click)="showAddFormular = !showAddFormular" *ngIf="!showAddFormular">
+            <span>Adddiv class="btn btn-success" (click)="showAddFormulartn btn-success" (click)="showAddFormulartn btn-success" (click)="showAddFormulartn btn-success" (click)="showAddFormulartn btn-success" (click)="showAddFormulartn btn-success" (click)="showAddFormulartn btn-success" (click)="showAddFormulartn btn-success" (click)="showAddFormulartn btn-success" (click)="showAddFormulartn btn-success" (click)="showAddFormulartn btn-success" (click)="showAddFormulartn btn-success" (click)="showAddFormulartn btn-success" (click)="showAddFormulartn btn-success" (click)="showAddFormulartn btn-success" (click)="showAddFormulartn btn-success" (click)="showAddFormulartn btn-success" (click)="showAddFormulartn btn-success" (click)="showAddFormulartn btn-success" (click)="showAddFormulartn btn-success" (click)="showAddFormulartn btn-success" (click)="showAddFormulartn btn-success" (click)="showAddFormulartn btn-success" (click)="showAddFormulartn btn-success" (click)="showAddFormulartn btn-success" (click)="showAddFormulartn btn-success" (click)="showAddFormulartn btn-success" (click)="showAddFormulartn btn-success" (click)="showAddFormulartn btn-success" (click)="showAddFormulartn btn-success" (click)="showAddFormulartn btn-success" (click)="showAddFormulartn btn-success" (click)="showAddFormulartn btn-success" (click)="showAddFormulartn btn-success" (click)="showAddFormulartn btn-success" (click)="showAddFormulartn btn-success" (click)="showAddFormulartn btn-success" (click)="showAddFormulartn btn-success" (click)="showAddFormulartn btn-success" (click)="showAddFormulartn btn-success" (click)="showAddFormulartn btn-success" (click)="showAddFormulartn btn-success" (click)="showAddFormulartn btn-success" (click)="showAddFormulartn btn-success" (click)="showAddFormulara fa-plus"></i> </span>
+        </div>-->
+        <app-add-note
+                (addFinished)="showAddFormular = false">
+        </app-add-note>
     </div>
 </div>
-
 <div class="row">
     <div class="col">
-        <div class="btn btn-success" (click)="showAddFormular = !showAddFormular" *ngIf="!showAddFormular">
-            <span>Add <i class="fa fa-plus"></i> </span>
-        </div>
-        <app-add-note *ngIf="showAddFormular" (addFinished)="showAddFormular = false"></app-add-note>
+        <app-notiz *ngFor="let note of notes" [noteInput]="note" [@noteAnimation]="'true'"></app-notiz>
     </div>
 </div>
 

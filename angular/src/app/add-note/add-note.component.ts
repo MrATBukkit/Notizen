@@ -5,7 +5,7 @@ import {NotizenService} from "../services/notizen.service";
 @Component({
   selector: 'app-add-note',
   templateUrl: './add-note.component.html',
-  styleUrls: ['./add-note.component.css']
+  styleUrls: ['./add-note.component.css'],
 })
 
 
