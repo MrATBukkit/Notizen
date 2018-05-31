@@ -1,14 +1,13 @@
-<form #form="ngForm" (ngSubmit)="update(form.value, form.form.valid)">
+<form #form="ngForm" (ngSubmit)="addNote(form.value, form.form.valid)">
   <div class="form-group">
     <label for="note_text">Bezeichnung:</label>
     <input type="text"
            required
            [(ngModel)]="addNoteModel.text"
-           #note_text
-           name="note_text"
-           id="note_text"
+           #text
+           name="text"
+           id="text"
            class="form-control">
-    <hw-show-error [path]="note_text" fieldname="Bezeichnung"></hw-show-error>
-    <input type="submit">
+    <input class="btn btn-success" type="submit">
   </div>
 </form>

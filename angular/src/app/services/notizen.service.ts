@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import {Observable} from "rxjs/Observable";
 import {Subject} from "rxjs/Subject";
-import {Http} from "@angular/http";
-import {Note} from "../../models/interfaces/Notes";
-import {HttpHeaders, HttpResponse} from "@angular/common/http";
+import {createInitilaNote, Note} from "../../models/interfaces/Notes";
+import {HttpClient, HttpHeaders, HttpResponse} from "@angular/common/http";
+import {Tag} from "@angular/compiler/src/i18n/serializers/xml_helper";
 
 const BASE_URL = "/api/";
 
@@ -41,10 +41,10 @@ export class NotizenService {
       let subject = new Subject<Boolean>();
       this.http.delete(BASE_URL+"notes/"+id, {responseType: 'text'}).subscribe(
           data => {
+              this.notes.next(this.removeElement(id, this.notesArray));
               subject.next(true);
-              this.notes.next(this.removeElement(id, this.JSONnote));
-          },
-          err => {
+          }, err => {
+              subject.error(err);
               throw err;
           }
       );
@@ -53,9 +53,26 @@ export class NotizenService {
 
   addNote(note: Note): Observable<Boolean> {
       let subject = new Subject<Boolean>();
-      //this.http.post(BASE_URL+"notes/", note, this.httpOptions);
+      this.http.post<Note>(BASE_URL+"notes/", note, this.httpOptions).subscribe(data => {
+          this.notesArray.push(data);
+          this.notes.next(this.notesArray);
+          subject.next(true);
+      }, err => {
+          subject.error(err);
+      });
       return subject;
   }
+
+  searchTags(text: string): Observable<Tag[]> {
+    let subject = new Subject<Tag[]>();
+    const url = BASE_URL + `tags/search?q=${text}`;
+    this.http.get<Tag[]>(url).subscribe(data => {
+        subject.next(data);
+    }, err => {
+        subject.error(err);
+    });
+    return subject;
+  };
 
   private removeElement(id: number, inputJSON: Note[]): Note[] {
     for (let i in this.notesArray) {

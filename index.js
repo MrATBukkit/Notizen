@@ -1,9 +1,9 @@
 const DB_PATH = "db.sqlite3";
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database(DB_PATH);
-/*const dbInit = require('./models/dbInit');
+const dbInit = require('./models/dbInit');
 dbinilise = new dbInit(db);
-dbinilise.createDatabase();*/
+dbinilise.createDatabase();
 
 const express = require('express');
 const apiRoutes = express.Router();
