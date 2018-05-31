@@ -10,7 +10,7 @@ import {Note} from "../../models/interfaces/Notes";
 export class NotizenListComponent implements OnInit {
 
   notes: Note[];
-  showAddFormular: boolean
+  showAddFormular: boolean;
 
   constructor(private notizenService: NotizenService) {
     this.showAddFormular = false;

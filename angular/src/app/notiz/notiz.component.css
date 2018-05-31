@@ -3,3 +3,13 @@
     position: absolute;
     right: 20px;
 }
+
+#save {
+    color: green;
+}
+
+#edit {
+    color: orange;
+    position: absolute;
+    right: 45px;
+}

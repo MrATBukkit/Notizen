@@ -11,7 +11,7 @@
         <div class="btn btn-success" (click)="showAddFormular = !showAddFormular" *ngIf="!showAddFormular">
             <span>Add <i class="fa fa-plus"></i> </span>
         </div>
-        <app-add-note *ngIf="showAddFormular"></app-add-note>
+        <app-add-note *ngIf="showAddFormular" (addFinished)="showAddFormular = false"></app-add-note>
     </div>
 </div>
 

@@ -1,13 +1,25 @@
 <div *ngIf="note != null" class="card">
-    <div class="card-header">
+    <div class="card-header" *ngIf="!showUpdateForm">
         <a class="collapsed card-link" data-toggle="collapse" href="#collapse{{note.PK}}">
             {{note.text}}
-            <i id="delete" (click)="delite(note.PK, $event)" class="fas fa-trash"></i>
         </a>
+        <i id="edit" class="fas fa-pencil-alt" (click)="showUpdateForm = !showUpdateForm"></i>
+        <i id="delete" (click)="delite(note.PK, $event)" class="fas fa-trash"></i>
+    </div>
+    <div class="card-header" *ngIf="showUpdateForm">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Notizen Text" [(ngModel)]="note.text">
+            <div class="input-group-append">
+                <button class="btn btn-outline-light" type="button"><i id="save" class="fas fa-save"></i></button>
+            </div>
+        </div>
     </div>
     <div id="collapse{{note.PK}}" class="collapse" data-parent="#accordion">
         <div class="card-body">
             Tags: <span *ngFor="let tag of note.tags">{{tag.tag}}, </span>
         </div>
+    </div>
+    <div *ngIf="showUpdateForm" class="collapse show" data-parent="#accordion">
+
     </div>
 </div>

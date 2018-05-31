@@ -4,7 +4,7 @@ let db;
 
 router.route("/notes")
     .get(notizenGET)
-    .post(postMessage);
+    .post(postNote);
 
 router.route("/notes/:id")
     .get(oneNotizGET)
@@ -15,10 +15,24 @@ router.route("/tags")
     .get(tagsGET)
     .post(tagPOST);
 
+router.route("/tags/search")
+    .get(searchTags);
+
 router.route("/tags/:id")
     .get(oneTagGET)
     .delete(TagDELETE)
     .put(TagPUT);
+
+function searchTags(req, res) {
+    db.all(`SELECT PK as id, tag FROM tags WHERE tag like '%${req.query.q}%';`, (err, rows) => {
+        if (err) {
+            console.log(err);
+            res.sendStatus(500);
+            return;
+        }
+        res.json(rows);
+    });
+}
 
 function TagPUT(req, res) {
     db.run(`UPDATE tags SET tag=? WHERE PK=?`, [req.body.tagname ,req.params.id], (err) => {
@@ -78,7 +92,7 @@ function tagPOST(req, res) {
            res.sendStatus(200);
         });
     }
-    // curl -X POST -H "Content-Type: application/json" localhost:3000/api/tags -d '{"abc": "hallo"}
+    // curl -X POST -H "Content-Type: application/json" localhost:3000/api/tags -d '{"abc": "hallo"}'
 
 }
 
@@ -118,24 +132,31 @@ function NotizDELETE(req, res) {
     });
 }
 
-function postMessage(req, res) {
-    db.serialize(() => {
-        db.run(`INSERT INTO notizen ('text') VALUES (?);`,
-            [req.body.text], (err)=>{
-                if (err) {
-                    res.sendStatus(500);
-                    return;
-                }
-            });
-        connectTagsNotes(req.body, (err) => {
+function postNote(req, res) {
+    db.run(`INSERT INTO notizen ('text') VALUES (?);`,
+        [req.body.text], (err)=>{
             if (err) {
+                console.log(err);
                 res.sendStatus(500);
                 return;
-            } else {
-                res.sendStatus(200);
             }
+            connectTagsNotes(req.body, (err, id) => {
+                if (err) {
+                    console.log(err);
+                    res.sendStatus(500);
+                    return;
+                } else {
+                    getOneNotice(id, (err, json) => {
+                        if (err) {
+                            console.log(err);
+                            return;
+                        }
+                        res.json(json);
+                    });
+                }
+            });
         });
-    });
+
 }
 
 function notizenGET(req, res) {
@@ -170,22 +191,31 @@ function oneNotizGET(req, res) {
         res.sendStatus(400);
         return;
     }
-    db.get('SELECT * FROM notizen WHERE PK = ?', [req.params.id], (err, row) => {
-       if (err) {
-           throw err;
-       }
+    getOneNotice(req.params.id, (err, json) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        res.json(json);
+    });
+}
 
-       if (row) {
-           getTagsForNotiz(row.PK).then((tagIDs) => {
-               row['tags'] = tagIDs;
-               res.json(row);
-           }).catch((err) => {
-               res.sendStatus(500);
-               throw err;
-           });
-       } else {
-           res.sendStatus(444);
-       }
+function getOneNotice(id, callback) {
+    db.get('SELECT * FROM notizen WHERE PK = ?', [id], (err, row) => {
+        if (err) {
+            throw err;
+        }
+        if (row) {
+            getTagsForNotiz(row.PK).then((tagIDs) => {
+                row['tags'] = tagIDs;
+                callback(null, row);
+            }).catch((err) => {
+                callback(err, null);
+                throw err;
+            });
+        } else {
+            callback(err, null);
+        }
     });
 }
 
@@ -215,7 +245,7 @@ function connectTagsNotes(json, callback) {
 
     db.get(`SELECT last_insert_rowid() AS ID;`, [], (err, row) => {
         if (err) {
-            res.sendStatus(500);
+            callback(err);
             return;
         }
 
@@ -225,7 +255,6 @@ function connectTagsNotes(json, callback) {
             }
             res.sendStatus(200);
         });*/
-
         sql = `INSERT notizen_tags (tag_FK, notizen_FK) VALUES `;
         if (json.tags != undefined) {
             json.tags.forEach((tag) => {
@@ -233,19 +262,22 @@ function connectTagsNotes(json, callback) {
                 sqlParams.push(tag);
                 sqlParams.push(row.ID);
             });
-        }
-        if (json.notes != undefined) {
+        } else if (json.notes != undefined) {
             json.notes.forEach((note) => {
                 sql += "(?, ?)";
                 sqlParams.push(row.ID);
                 sqlParams.push(note)
             });
+        } else {
+            callback(null, row.ID);
+            return;
         }
+        let createID = row.ID;
         db.run(sql, sqlParams, (err) => {
             if (err) {
-                callback(err);
+                callback(err, null);
             }
-            callback();
+            callback(null, createID);
         });
 
 

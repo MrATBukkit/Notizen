@@ -10,8 +10,10 @@ import {Note} from "../../models/interfaces/Notes";
 export class NotizComponent implements OnInit {
   @Input() noteInput: Note;
   note: Note;
-  constructor(private notizenService: NotizenService) {
+  showUpdateForm;
 
+  constructor(private notizenService: NotizenService) {
+    this.showUpdateForm = false;
   }
 
   delite(id: number, event) {

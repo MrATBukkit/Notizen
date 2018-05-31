@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import {Observable} from "rxjs/Observable";
 import {Subject} from "rxjs/Subject";
 import {Http} from "@angular/http";
@@ -12,7 +11,7 @@ const BASE_URL = "/api/";
 export class NotizenService {
 
   notes: Subject<Note[]> = new Subject<Note[]>();
-  JSONnote: Note[];
+  private notesArray: Note[];
 
   httpOptions = {
       headers: new HttpHeaders({
@@ -21,17 +20,16 @@ export class NotizenService {
       })
   };
 
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
       this.notes.subscribe((data) => {
-         this.JSONnote = data;
+         this.notesArray = data;
       });
   }
 
   getNotes() : Observable<Note[]> {
-    this.http.get(BASE_URL+"notes").subscribe(
+    this.http.get<Note[]>(BASE_URL+"notes").subscribe(
         data => {
-          let jsonNote = JSON.parse(data.text());
-          this.notes.next(jsonNote);
+          this.notes.next(data);
         },
         err => {
           console.log(err);
@@ -41,7 +39,7 @@ export class NotizenService {
   }
   removeNote(id:number): Observable<Boolean> {
       let subject = new Subject<Boolean>();
-      this.http.delete(BASE_URL+"notes/"+id).subscribe(
+      this.http.delete(BASE_URL+"notes/"+id, {responseType: 'text'}).subscribe(
           data => {
               subject.next(true);
               this.notes.next(this.removeElement(id, this.JSONnote));
@@ -60,8 +58,8 @@ export class NotizenService {
   }
 
   private removeElement(id: number, inputJSON: Note[]): Note[] {
-    for (let i in this.JSONnote) {
-        if (this.JSONnote[i].PK == id) {
+    for (let i in this.notesArray) {
+        if (this.notesArray[i].PK == id) {
             delete inputJSON[i];
         }
     }

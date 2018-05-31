@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { NotizenListComponent } from './notizen-list/notizen-list.component';
 import { NotizComponent } from './notiz/notiz.component';
 import {NotizenService} from "./services/notizen.service";
-import {HttpModule} from "@angular/http";
 import { AddNoteComponent } from './add-note/add-note.component';
 import {FormsModule} from "@angular/forms";
 import {ShowErrorComponent} from "../show-error/show-error.component";
@@ -18,12 +17,12 @@ import {ShowErrorComponent} from "../show-error/show-error.component";
     NotizenListComponent,
     NotizComponent,
     AddNoteComponent,
-      ShowErrorComponent
+    ShowErrorComponent
   ],
   imports: [
     BrowserModule,
-      HttpModule,
-      FormsModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [NotizenService],
   bootstrap: [AppComponent]
