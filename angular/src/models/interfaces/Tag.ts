@@ -3,6 +3,6 @@ export interface Note {
     tag: string,
 }
 
-export function createInitilaNote(): Note {
+export function createInitilaTag(): Note {
     return { tag: ''}
 }

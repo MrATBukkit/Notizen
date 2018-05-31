@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {NotizenService} from "../services/notizen.service";
-import {Note} from "../../models/interfaces/Notes";
+import {createInitilaNote, Note} from "../../models/interfaces/Notes";
 
 @Component({
   selector: 'app-notiz',
@@ -22,6 +22,13 @@ export class NotizComponent implements OnInit {
           console.log("succes");
         }
     )
+  }
+
+  update(values: any, valid:boolean) {
+    if (valid) {
+        this.notizenService.updateNotes(this.note);
+        this.showUpdateForm = false;
+    }
   }
 
   ngOnInit() {

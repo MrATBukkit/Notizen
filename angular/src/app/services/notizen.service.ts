@@ -72,7 +72,19 @@ export class NotizenService {
         subject.error(err);
     });
     return subject;
-  };
+  }
+
+  updateNotes(note: Note): Observable<boolean> {
+      let subject = new Subject<boolean>();
+      this.http.put<Note>(BASE_URL+`notes/`+note.PK, note, this.httpOptions).subscribe(
+          data => {
+              subject.next(true);
+          }, err => {
+              subject.error(err);
+          }
+      );
+      return subject;
+  }
 
   private removeElement(id: number, inputJSON: Note[]): Note[] {
     for (let i in this.notesArray) {

@@ -113,13 +113,15 @@ function NotizPUT(req, res) {
            return;
        }
     });
-    connectTagsNotes(req.body, (err) => {
-       if (err) {
-           res.sendStatus(500);
-           return
-       }
-       res.sendStatus(200);
-    });
+    if (req.body.tags && req.body.tags.length > 0) {
+        connectTagsNotes(req.body, (err) => {
+            if (err) {
+                res.sendStatus(500);
+                return
+            }
+            res.sendStatus(200);
+        });
+    }
 }
 
 function NotizDELETE(req, res) {
