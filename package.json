@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocka",
     "serve": "nodemon index.js",
-    "start": "node index.js"
+    "start": "cd angular && ng build && cd .. && node index.js"
   },
   "author": "Walzl Hermann",
   "license": "ISC",

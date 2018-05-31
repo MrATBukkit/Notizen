@@ -17,3 +17,4 @@ app.use(express.static(__dirname+"/angular/dist"));
 
 app.listen(3000);
 app.use("/api", apiRouts);
+console.log("Server startet running on Port 3000");
