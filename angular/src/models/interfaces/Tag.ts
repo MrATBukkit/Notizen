@@ -1,8 +1,8 @@
-export interface Note {
+export interface Tag {
     PK?: number,
     tag: string,
 }
 
-export function createInitilaTag(): Note {
-    return { tag: ''}
+export function createInitilaTag(): Tag {
+    return { tag: '' }
 }

@@ -1,5 +1,4 @@
 #delete {
-    color: red;
     position: absolute;
     right: 20px;
 }
@@ -9,7 +8,6 @@
 }
 
 #edit {
-    color: orange;
     position: absolute;
     right: 45px;
 }

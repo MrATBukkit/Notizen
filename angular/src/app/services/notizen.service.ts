@@ -76,7 +76,8 @@ export class NotizenService {
 
   updateNotes(note: Note): Observable<boolean> {
       let subject = new Subject<boolean>();
-      this.http.put<Note>(BASE_URL+`notes/`+note.PK, note, this.httpOptions).subscribe(
+      console.log(note);
+      this.http.put(BASE_URL+`notes/`+note.PK, note, this.httpOptions).subscribe(
           data => {
               subject.next(true);
           }, err => {

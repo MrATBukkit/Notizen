@@ -1,7 +1,9 @@
+import {Tag} from "./Tag";
+
 export interface Note {
     PK?: number,
     text: string,
-    tags?: number[],
+    tags?: Tag[],
 }
 
 export function createInitilaNote(): Note {

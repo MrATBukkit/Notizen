@@ -109,19 +109,25 @@ function tagsGET(req, res) {
 function NotizPUT(req, res) {
     db.run(`UPDATE notizen SET text=? WHERE PK=?`, [req.body.text, req.params.id], (err) => {
        if (err) {
+           console.log("Error: ");
+           console.log(err);
            res.sendStatus(500);
            return;
        }
     });
+    console.log(req.body.PK)
     if (req.body.tags && req.body.tags.length > 0) {
         connectTagsNotes(req.body, (err) => {
             if (err) {
+                console.log("error: ");
+                console.log(err);
                 res.sendStatus(500);
                 return
             }
             res.sendStatus(200);
-        });
+        }, req.body.PK);
     }
+
 }
 
 function NotizDELETE(req, res) {
@@ -241,48 +247,52 @@ function getTagsForNotiz(notizId) {
     });
 }
 
-function connectTagsNotes(json, callback) {
-    let sql;
-    let sqlParams = [];
-
-    db.get(`SELECT last_insert_rowid() AS ID;`, [], (err, row) => {
-        if (err) {
-            callback(err);
-            return;
-        }
-
-        /*connectTagsNotes(row.ID, req.body, (err) => {
-            if (err) {
-                res.statusCode(500);
-            }
-            res.sendStatus(200);
-        });*/
-        sql = `INSERT notizen_tags (tag_FK, notizen_FK) VALUES `;
-        if (json.tags != undefined) {
-            json.tags.forEach((tag) => {
-                sql += "(?, ?)";
-                sqlParams.push(tag);
-                sqlParams.push(row.ID);
-            });
-        } else if (json.notes != undefined) {
-            json.notes.forEach((note) => {
-                sql += "(?, ?)";
-                sqlParams.push(row.ID);
-                sqlParams.push(note)
+function connectTagsNotes(json, callback, id = null) {
+    db.serialize(() => {
+        if (id == null) {
+            console.log("searching for id");
+            db.get(`SELECT last_insert_rowid() AS ID;`, [], (err, row) => {
+                if (err) {
+                    callback(err);
+                    return;
+                }
+                setTagsNote(json, row.ID, (err, id) => {
+                   callback(err, id);
+                });
             });
         } else {
-            callback(null, row.ID);
-            return;
+            setTagsNote(json, id, (err, id) => {
+                callback(err, id);
+            });
         }
-        let createID = row.ID;
-        db.run(sql, sqlParams, (err) => {
-            if (err) {
-                callback(err, null);
-            }
-            callback(null, createID);
+    });
+}
+
+function setTagsNote(json, id, callback) {
+    let sql;
+    sql = `INSERT INTO notizen_tags (tag_FK, notizen_FK) VALUES `;
+    if (json.tags != undefined) {
+        sql = `DELETE FROM notizen_tags WHERE notizen_FK=${id}; `+ sql ;
+        json.tags.forEach((tag) => {
+            sql += `(${tag.PK}, ${id}),`;
         });
-
-
+    } else if (json.notes != undefined) {
+        sql = `DELETE FROM notizen_tags WHERE tag_FK=?`;
+        sqlParams.push(id);
+        json.notes.forEach((note) => {
+            sql += "(?, ?)";
+        });
+    } else {
+        callback(null, id);
+        return;
+    }
+    sql = sql.substring(0, sql.length-1) + ";";
+    let createID = id;
+    db.run(sql, [], (err) => {
+        if (err) {
+            callback(err, null);
+        }
+        callback(null, createID);
     });
 }
 
