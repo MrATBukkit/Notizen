@@ -20,3 +20,11 @@ npm run start
 ```
 dannach läuft der Build Prozess von Angular danach wird auch der Node Server
 gestart, dannach kann man mittels "localhost:3000" auf die Anwendung zugreifen
+
+## Dev Server
+
+Der Entwicklungsserver aknn mittels:
+```npm
+npm run serve
+```
+gestartet werden
