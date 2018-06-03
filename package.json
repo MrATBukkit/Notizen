@@ -6,8 +6,10 @@
   "scripts": {
     "postinstall": "cd angular && npm install && cd ..",
     "test": "mocka",
-    "serve": "nodemon index.js",
-    "start": "cd angular && ng build && cd .. && node index.js"
+    "serve:server": "nodemon index.js",
+    "start": "cd angular && ng build && cd .. && node index.js",
+    "serve:angular": "cd angular && ng build --watch",
+    "serve": "npm-run-all -p serve:angular serve:server"
   },
   "author": "Walzl Hermann",
   "license": "ISC",
@@ -18,6 +20,7 @@
     "sqlite3": "^4.0.0"
   },
   "devDependencies": {
-    "nodemon": "^1.17.3"
+    "nodemon": "^1.17.3",
+    "npm-run-all": "^4.1.3"
   }
 }
