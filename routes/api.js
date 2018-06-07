@@ -109,25 +109,19 @@ function tagsGET(req, res) {
 function NotizPUT(req, res) {
     db.run(`UPDATE notizen SET text=? WHERE PK=?`, [req.body.text, req.params.id], (err) => {
        if (err) {
-           console.log("Error: ");
-           console.log(err);
            res.sendStatus(500);
            return;
        }
     });
-    console.log(req.body.PK)
     if (req.body.tags && req.body.tags.length > 0) {
         connectTagsNotes(req.body, (err) => {
             if (err) {
-                console.log("error: ");
-                console.log(err);
                 res.sendStatus(500);
                 return
             }
             res.sendStatus(200);
         }, req.body.PK);
     }
-
 }
 
 function NotizDELETE(req, res) {
@@ -164,7 +158,6 @@ function postNote(req, res) {
                 }
             });
         });
-
 }
 
 function notizenGET(req, res) {
@@ -187,10 +180,6 @@ function notizenGET(req, res) {
         }, (err) => {
             throw err;
         });
-
-        /*rows.forEach((row) => {
-          console.log(row.name);
-        });*/
     });
 }
 

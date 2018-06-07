@@ -1,6 +1,6 @@
 #delete {
     position: absolute;
-    right: 20px;
+    right: 15px;
 }
 
 #save {
@@ -8,6 +8,6 @@
 }
 
 #edit {
-    position: absolute;
-    right: 45px;
+    position: relative;
+    left: 0px;
 }

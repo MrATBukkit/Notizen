@@ -1,12 +1,12 @@
-<div *ngIf="note != null" class="card">
+    <div *ngIf="note != null" class="card">
     <div class="card-header" *ngIf="!showUpdateForm">
         <a class="collapsed card-link" data-toggle="collapse" href="#collapse{{note.PK}}">
             {{note.text}}
         </a>
-        <button id="edit" class="btn btn-warning" (click)="showUpdateForm = !showUpdateForm">
+        <button class="btn btn-warning float-right" (click)="showUpdateForm = !showUpdateForm">
             <i class="fas fa-pencil-alt"></i>
         </button>
-        <button (click)="delite(note.PK, $event)" class="btn btn-danger" id="delete">
+        <button (click)="delite(note.PK, $event)" class="btn btn-danger float-right">
             <i class="fas fa-trash"></i>
         </button>
     </div>

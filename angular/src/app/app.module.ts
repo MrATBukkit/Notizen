@@ -9,6 +9,7 @@ import {FormsModule} from "@angular/forms";
 import {ShowErrorComponent} from "./show-error/show-error.component";
 import {HttpClientModule} from "@angular/common/http";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { TagPickerComponent } from './tag-picker/tag-picker.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     NotizenListComponent,
     NotizComponent,
     AddNoteComponent,
-    ShowErrorComponent
+    ShowErrorComponent,
+    TagPickerComponent
   ],
   imports: [
     BrowserModule,
