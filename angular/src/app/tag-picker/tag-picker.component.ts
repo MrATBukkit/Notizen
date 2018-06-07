@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Tag} from "../../models/interfaces/Tag";
+import {createInitilaTag, Tag} from "../../models/interfaces/Tag";
 
 @Component({
   selector: 'app-tag-picker',
@@ -8,7 +8,17 @@ import {Tag} from "../../models/interfaces/Tag";
 })
 export class TagPickerComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+    this.tags = [];
+    let tag1 = createInitilaTag();
+    tag1.PK = 1;
+    tag1.tag = "hallo";
+    let tag2 = createInitilaTag();
+    tag1.PK = 2;
+    tag1.tag = "test";
+    this.tags.push(tag1);
+    this.tags.push(tag2);
+  }
   tags: Tag[];
 
   ngOnInit() {

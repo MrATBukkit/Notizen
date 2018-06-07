@@ -10,6 +10,7 @@ import {ShowErrorComponent} from "./show-error/show-error.component";
 import {HttpClientModule} from "@angular/common/http";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { TagPickerComponent } from './tag-picker/tag-picker.component';
+import { SelectedTagsComponent } from './tag-picker/selected-tags/selected-tags.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { TagPickerComponent } from './tag-picker/tag-picker.component';
     NotizComponent,
     AddNoteComponent,
     ShowErrorComponent,
-    TagPickerComponent
+    TagPickerComponent,
+    SelectedTagsComponent
   ],
   imports: [
     BrowserModule,
