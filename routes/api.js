@@ -23,6 +23,13 @@ router.route("/tags/:id")
     .delete(TagDELETE)
     .put(TagPUT);
 
+router.route("*")
+    .get(notFound);
+
+function notFound(req, res) {
+    res.sendStatus(404);
+}
+
 function searchTags(req, res) {
     db.all(`SELECT PK as id, tag FROM tags WHERE tag like '%${req.query.q}%';`, (err, rows) => {
         if (err) {
@@ -204,7 +211,11 @@ function oneNotizGET(req, res) {
             console.log(err);
             return;
         }
-        res.json(json);
+        if (json) {
+            res.json(json);
+        } else {
+            res.sendStatus(404);
+        }
     });
 }
 
