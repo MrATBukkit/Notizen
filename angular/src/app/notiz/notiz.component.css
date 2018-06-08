@@ -1,13 +1,10 @@
-#delete {
-    position: absolute;
-    right: 20px;
-}
-
 #save {
     color: green;
 }
 
-#edit {
-    position: absolute;
-    right: 45px;
+.card-header {
+    width: 100%;
+}
+.card-header .btn.btn-warning {
+    margin-right: 10px;
 }
