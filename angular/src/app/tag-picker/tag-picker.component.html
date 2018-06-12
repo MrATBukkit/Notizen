@@ -1,4 +1,13 @@
 <div class="form-control">
-  <app-selected-tags *ngFor="let tag of tags" [tag]="tag"></app-selected-tags>
-  <input type="text" #tagsIDs id="tags">
+  <div class="flex-container">
+    <app-selected-tags *ngFor="let tag of tags" (closeTag)="deletTag(tag)" [tag]="tag"></app-selected-tags>
+  </div>
+  <input
+          type="text"
+          (keypress)="keyPressed($event, tagsIDs.value)"
+          placeholder="Tags"
+          #tagsIDs
+          id="tags"
+          class="form-control"
+          >
 </div>

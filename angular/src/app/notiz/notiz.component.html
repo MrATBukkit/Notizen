@@ -3,9 +3,6 @@
         <a class="collapsed card-link" data-toggle="collapse" href="#collapse{{note.PK}}">
             {{note.text}}
         </a>
-        <button class="btn btn-warning float-right" (click)="showUpdateForm = !showUpdateForm">
-            <i class="fas fa-pencil-alt"></i>
-        </button>
         <button (click)="delite(note.PK, $event)" class="btn btn-danger float-right">
             <i class="fas fa-trash"></i>
         </button>

@@ -1,0 +1,13 @@
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+.flex-container > app-selected-tags {
+    background-color: #f1f1f1;
+    width: auto;
+    margin-right: 5px;
+    margin-left: 5px;
+    text-align: center;
+}

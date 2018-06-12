@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Tag} from "../../../models/interfaces/Tag";
 
 @Component({
@@ -8,6 +8,8 @@ import {Tag} from "../../../models/interfaces/Tag";
 })
 export class SelectedTagsComponent implements OnInit {
   @Input() tag: Tag;
+  @Output() closeTag = new EventEmitter();
+
   selectedTag:Tag;
   constructor() {
   }
@@ -15,6 +17,10 @@ export class SelectedTagsComponent implements OnInit {
   ngOnInit() {
     console.log("Tags: " + this.tag.tag);
     this.selectedTag = this.tag;
+  }
+
+  deleteTag() {
+    this.closeTag.emit()
   }
 
 }
