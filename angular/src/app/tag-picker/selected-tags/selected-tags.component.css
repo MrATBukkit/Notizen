@@ -1,0 +1,25 @@
+.tag {
+    display: inline;
+    padding: .2em .6em .3em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+    margin-right: 2px;
+    background-color: #5bc0de !important;
+    height: 45px;
+}
+.tag button.close {
+    float: inherit !important;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    height: 20px !important;
+}

@@ -5,7 +5,7 @@ import {createInitilaNote, Note} from "../../models/interfaces/Notes";
 import {HttpClient, HttpHeaders, HttpResponse} from "@angular/common/http";
 import {Tag} from "@angular/compiler/src/i18n/serializers/xml_helper";
 
-const BASE_URL = "/api/";
+const BASE_URL = "/api/notes/";
 
 @Injectable()
 export class NotizenService {
@@ -27,7 +27,7 @@ export class NotizenService {
   }
 
   getNotes() : Observable<Note[]> {
-    this.http.get<Note[]>(BASE_URL+"notes").subscribe(
+    this.http.get<Note[]>(BASE_URL).subscribe(
         data => {
           this.notes.next(data);
         },
@@ -39,7 +39,7 @@ export class NotizenService {
   }
   removeNote(id:number): Observable<Boolean> {
       let subject = new Subject<Boolean>();
-      this.http.delete(BASE_URL+"notes/"+id, {responseType: 'text'}).subscribe(
+      this.http.delete(BASE_URL+id, {responseType: 'text'}).subscribe(
           data => {
               this.notes.next(this.removeElement(id, this.notesArray));
               subject.next(true);
@@ -53,7 +53,7 @@ export class NotizenService {
 
   addNote(note: Note): Observable<Boolean> {
       let subject = new Subject<Boolean>();
-      this.http.post<Note>(BASE_URL+"notes/", note, this.httpOptions).subscribe(data => {
+      this.http.post<Note>(BASE_URL, note, this.httpOptions).subscribe(data => {
           this.notesArray.push(data);
           this.notes.next(this.notesArray);
           subject.next(true);
@@ -63,21 +63,10 @@ export class NotizenService {
       return subject;
   }
 
-  searchTags(text: string): Observable<Tag[]> {
-    let subject = new Subject<Tag[]>();
-    const url = BASE_URL + `tags/search?q=${text}`;
-    this.http.get<Tag[]>(url).subscribe(data => {
-        subject.next(data);
-    }, err => {
-        subject.error(err);
-    });
-    return subject;
-  }
-
   updateNotes(note: Note): Observable<boolean> {
       let subject = new Subject<boolean>();
       console.log(note);
-      this.http.put(BASE_URL+`notes/`+note.PK, note, this.httpOptions).subscribe(
+      this.http.put(BASE_URL+note.PK, note, this.httpOptions).subscribe(
           data => {
               subject.next(true);
           }, err => {

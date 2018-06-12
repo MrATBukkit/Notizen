@@ -11,6 +11,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { TagPickerComponent } from './tag-picker/tag-picker.component';
 import { SelectedTagsComponent } from './tag-picker/selected-tags/selected-tags.component';
+import {TagService} from "./tag.service";
 
 @NgModule({
   declarations: [
@@ -28,7 +29,10 @@ import { SelectedTagsComponent } from './tag-picker/selected-tags/selected-tags.
     FormsModule,
     BrowserAnimationsModule
   ],
-  providers: [NotizenService],
+  providers: [
+      NotizenService,
+      TagService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
